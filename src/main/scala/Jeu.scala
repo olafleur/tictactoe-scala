@@ -11,7 +11,7 @@ class Jeu(printer: Printer) {
 
     jouerTour()
 
-    while (!partieEstTerminee()) {
+    while (!maGrille.partieEstTerminee()) {
       gameLoop()
     }
 
@@ -22,7 +22,7 @@ class Jeu(printer: Printer) {
   private def gameLoop() = {
     printer.showGrid(maGrille)
 
-    if (!partieEstTerminee()) {
+    if (!maGrille.partieEstTerminee()) {
       jouerTour()
     }
   }
@@ -33,58 +33,25 @@ class Jeu(printer: Printer) {
     maGrille.recupere(choix._1, choix._2) match {
       case Rien() =>
         maGrille.joue(choix._1, choix._2, aQuiLeTour)
-        aQuiLeTour match {
-          case X() => aQuiLeTour = O()
-          case O() => aQuiLeTour = X()
-        }
+        aQuiLeTour = contraire(aQuiLeTour)
       case _ =>
         printer.afficherMessage("CASE DÉJÀ PRISE\n")
         jouerTour()
     }
   }
 
-  private def partieEstTerminee(): Boolean = {
-    ligneVerticale() || ligneHorizontale() || ligneDiagonale()
+  //TODO : Si la grille est pleine et que quelqu'un a gagné, il va dire nul, je crois
+  private def declarerVainqueur() = {
+    if(maGrille.partieNulle()) {
+      printer.afficherMessage("La partie est nulle.")
+    } else {
+      printer.afficherMessage("Bravo! Le joueur " + contraire(aQuiLeTour) + " a gagné.")
+    }
   }
 
-  private def ligneVerticale() = ligneVerticale1() || ligneVerticale2() || ligneVerticale3()
-
-  private def ligneHorizontale() = ligneHorizontale1() || ligneHorizontale2() || ligneHorizontale3()
-
-  private def ligneDiagonale() = ligneDiagonaleGD() || ligneDiagonaleDG()
-
-  private def ligneVerticale1() =
-    maGrille.recupere(Gauche(), Haut()) == maGrille.recupere(Gauche(), Milieu()) &&
-      maGrille.recupere(Gauche(), Milieu()) == maGrille.recupere(Gauche(), Bas()) &&
-      maGrille.recupere(Gauche(), Milieu()) != Rien()
-
-  private def ligneVerticale2() = maGrille.recupere(Centre(), Haut()) == maGrille.recupere(Centre(), Milieu()) &&
-    maGrille.recupere(Centre(), Milieu()) == maGrille.recupere(Centre(), Bas()) &&
-    maGrille.recupere(Centre(), Milieu()) != Rien()
-
-  private def ligneVerticale3() = maGrille.recupere(Droite(), Haut()) == maGrille.recupere(Droite(), Milieu()) &&
-    maGrille.recupere(Droite(), Milieu()) == maGrille.recupere(Droite(), Bas()) &&
-    maGrille.recupere(Droite(), Milieu()) != Rien()
-
-  def ligneHorizontale1() = maGrille.recupere(Gauche(), Haut()) == maGrille.recupere(Centre(), Haut()) &&
-    maGrille.recupere(Centre(), Haut()) == maGrille.recupere(Droite(), Haut()) &&
-    maGrille.recupere(Gauche(), Haut()) != Rien()
-
-  def ligneHorizontale2() = maGrille.recupere(Gauche(), Milieu()) == maGrille.recupere(Centre(), Milieu()) &&
-    maGrille.recupere(Centre(), Milieu()) == maGrille.recupere(Droite(), Milieu()) &&
-    maGrille.recupere(Gauche(), Milieu()) != Rien()
-
-  def ligneHorizontale3() = maGrille.recupere(Gauche(), Bas()) == maGrille.recupere(Centre(), Bas()) &&
-    maGrille.recupere(Centre(), Bas()) == maGrille.recupere(Droite(), Bas()) &&
-    maGrille.recupere(Gauche(), Bas()) != Rien()
-
-  def ligneDiagonaleGD() = maGrille.recupere(Gauche(), Haut()) == maGrille.recupere(Centre(), Milieu()) &&
-    maGrille.recupere(Centre(), Milieu()) == maGrille.recupere(Droite(), Bas()) &&
-    maGrille.recupere(Gauche(), Haut()) != Rien()
-
-  def ligneDiagonaleDG() = maGrille.recupere(Droite(), Haut()) == maGrille.recupere(Centre(), Milieu()) &&
-    maGrille.recupere(Centre(), Milieu()) == maGrille.recupere(Gauche(), Bas()) &&
-    maGrille.recupere(Droite(), Milieu()) != Rien()
-
-  def declarerVainqueur() = printer.afficherMessage("Bravo! Le joueur " + aQuiLeTour + " a perdu.")
+  private def contraire(joueur: Joue) =
+    joueur match {
+      case X() => O()
+      case O() => X()
+    }
 }
