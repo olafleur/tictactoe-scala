@@ -1,3 +1,6 @@
+import domain._
+import ux.Printer
+
 class Jeu(printer: Printer) {
   val maGrille = new Grille
   var aQuiLeTour: Joue = X()

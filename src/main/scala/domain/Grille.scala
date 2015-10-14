@@ -1,3 +1,5 @@
+package domain
+
 class Grille {
   private var cases: Map[(Horizontal, Vertical), Etat] = Map(
     (Gauche(), Haut()) -> Rien(),

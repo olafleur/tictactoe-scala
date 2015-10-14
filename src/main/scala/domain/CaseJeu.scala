@@ -1,3 +1,5 @@
+package domain
+
 abstract class CaseJeu
 
 abstract class Horizontal() extends CaseJeu

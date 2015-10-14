@@ -1,3 +1,7 @@
+package ux
+
+import domain._
+
 class ConsolePrinter extends Printer {
   override def showGrid(grille: Grille) = {
     printLigne(grille.recupere(Gauche(), Haut()),

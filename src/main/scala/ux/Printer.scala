@@ -1,3 +1,7 @@
+package ux
+
+import domain.{Grille, Horizontal, Vertical}
+
 trait Printer {
   def listenInput(inputMessage: String): (Horizontal, Vertical)
 
