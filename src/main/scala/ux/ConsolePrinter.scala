@@ -5,13 +5,13 @@ import domain._
 class ConsolePrinter extends Printer {
   override def showGrid(grille: Grille) = {
     printLigne(grille.recupere(Gauche(), Haut()),
-      grille.recupere(Centre(), Haut()),
+      grille.recupere(CentreHorizontal(), Haut()),
       grille.recupere(Droite(), Haut()))
-    printLigne(grille.recupere(Gauche(), Milieu()),
-      grille.recupere(Centre(), Milieu()),
-      grille.recupere(Droite(), Milieu()))
+    printLigne(grille.recupere(Gauche(), CentreVertical()),
+      grille.recupere(CentreHorizontal(), CentreVertical()),
+      grille.recupere(Droite(), CentreVertical()))
     printLigne(grille.recupere(Gauche(), Bas()),
-      grille.recupere(Centre(), Bas()),
+      grille.recupere(CentreHorizontal(), Bas()),
       grille.recupere(Droite(), Bas()))
   }
 
@@ -47,13 +47,13 @@ class ConsolePrinter extends Printer {
   private def convertNumberToCase(number: String) = {
     number match {
       case "1" => Some(Gauche(), Haut())
-      case "2" => Some(Centre(), Haut())
+      case "2" => Some(CentreHorizontal(), Haut())
       case "3" => Some(Droite(), Haut())
-      case "4" => Some(Gauche(), Milieu())
-      case "5" => Some(Centre(), Milieu())
-      case "6" => Some(Droite(), Milieu())
+      case "4" => Some(Gauche(), CentreVertical())
+      case "5" => Some(CentreHorizontal(), CentreVertical())
+      case "6" => Some(Droite(), CentreVertical())
       case "7" => Some(Gauche(), Bas())
-      case "8" => Some(Centre(), Bas())
+      case "8" => Some(CentreHorizontal(), Bas())
       case "9" => Some(Droite(), Bas())
       case _ => None
 

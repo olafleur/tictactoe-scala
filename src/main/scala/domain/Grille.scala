@@ -3,13 +3,13 @@ package domain
 class Grille {
   private var cases: Map[(Horizontal, Vertical), Etat] = Map(
     (Gauche(), Haut()) -> Rien(),
-    (Gauche(), Milieu()) -> Rien(),
+    (Gauche(), CentreVertical()) -> Rien(),
     (Gauche(), Bas()) -> Rien(),
-    (Centre(), Haut()) -> Rien(),
-    (Centre(), Bas()) -> Rien(),
-    (Centre(), Milieu()) -> Rien(),
+    (CentreHorizontal(), Haut()) -> Rien(),
+    (CentreHorizontal(), Bas()) -> Rien(),
+    (CentreHorizontal(), CentreVertical()) -> Rien(),
     (Droite(), Haut()) -> Rien(),
-    (Droite(), Milieu()) -> Rien(),
+    (Droite(), CentreVertical()) -> Rien(),
     (Droite(), Bas()) -> Rien()
   )
 
@@ -46,35 +46,35 @@ class Grille {
   private def ligneDiagonale() = ligneDiagonaleGD() || ligneDiagonaleDG()
 
   private def ligneVerticale1() =
-    cases(Gauche(), Haut()) == cases(Gauche(), Milieu()) &&
-      cases(Gauche(), Milieu()) == cases(Gauche(), Bas()) &&
-      cases(Gauche(), Milieu()) != Rien()
+    cases(Gauche(), Haut()) == cases(Gauche(), CentreVertical()) &&
+      cases(Gauche(), CentreVertical()) == cases(Gauche(), Bas()) &&
+      cases(Gauche(), CentreVertical()) != Rien()
 
-  private def ligneVerticale2() = cases(Centre(), Haut()) == cases(Centre(), Milieu()) &&
-    cases(Centre(), Milieu()) == cases(Centre(), Bas()) &&
-    cases(Centre(), Milieu()) != Rien()
+  private def ligneVerticale2() = cases(CentreHorizontal(), Haut()) == cases(CentreHorizontal(), CentreVertical()) &&
+    cases(CentreHorizontal(), CentreVertical()) == cases(CentreHorizontal(), Bas()) &&
+    cases(CentreHorizontal(), CentreVertical()) != Rien()
 
-  private def ligneVerticale3() = cases(Droite(), Haut()) == cases(Droite(), Milieu()) &&
-    cases(Droite(), Milieu()) == cases(Droite(), Bas()) &&
-    cases(Droite(), Milieu()) != Rien()
+  private def ligneVerticale3() = cases(Droite(), Haut()) == cases(Droite(), CentreVertical()) &&
+    cases(Droite(), CentreVertical()) == cases(Droite(), Bas()) &&
+    cases(Droite(), CentreVertical()) != Rien()
 
-  private def ligneHorizontale1() = cases(Gauche(), Haut()) == cases(Centre(), Haut()) &&
-    cases(Centre(), Haut()) == cases(Droite(), Haut()) &&
+  private def ligneHorizontale1() = cases(Gauche(), Haut()) == cases(CentreHorizontal(), Haut()) &&
+    cases(CentreHorizontal(), Haut()) == cases(Droite(), Haut()) &&
     cases(Gauche(), Haut()) != Rien()
 
-  private def ligneHorizontale2() = cases(Gauche(), Milieu()) == cases(Centre(), Milieu()) &&
-    cases(Centre(), Milieu()) == cases(Droite(), Milieu()) &&
-    cases(Gauche(), Milieu()) != Rien()
+  private def ligneHorizontale2() = cases(Gauche(), CentreVertical()) == cases(CentreHorizontal(), CentreVertical()) &&
+    cases(CentreHorizontal(), CentreVertical()) == cases(Droite(), CentreVertical()) &&
+    cases(Gauche(), CentreVertical()) != Rien()
 
-  private def ligneHorizontale3() = cases(Gauche(), Bas()) == cases(Centre(), Bas()) &&
-    cases(Centre(), Bas()) == cases(Droite(), Bas()) &&
+  private def ligneHorizontale3() = cases(Gauche(), Bas()) == cases(CentreHorizontal(), Bas()) &&
+    cases(CentreHorizontal(), Bas()) == cases(Droite(), Bas()) &&
     cases(Gauche(), Bas()) != Rien()
 
-  private def ligneDiagonaleGD() = cases(Gauche(), Haut()) == cases(Centre(), Milieu()) &&
-    cases(Centre(), Milieu()) == cases(Droite(), Bas()) &&
+  private def ligneDiagonaleGD() = cases(Gauche(), Haut()) == cases(CentreHorizontal(), CentreVertical()) &&
+    cases(CentreHorizontal(), CentreVertical()) == cases(Droite(), Bas()) &&
     cases(Gauche(), Haut()) != Rien()
 
-  private def ligneDiagonaleDG() = cases(Droite(), Haut()) == cases(Centre(), Milieu()) &&
-    cases(Centre(), Milieu()) == cases(Gauche(), Bas()) &&
-    cases(Droite(), Milieu()) != Rien()
+  private def ligneDiagonaleDG() = cases(Droite(), Haut()) == cases(CentreHorizontal(), CentreVertical()) &&
+    cases(CentreHorizontal(), CentreVertical()) == cases(Gauche(), Bas()) &&
+    cases(Droite(), CentreVertical()) != Rien()
 }
