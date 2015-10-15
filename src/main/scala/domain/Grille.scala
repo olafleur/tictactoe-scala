@@ -13,7 +13,7 @@ class Grille {
     (Droite(), Bas()) -> Rien()
   )
 
-  def joue(x: Horizontal, y: Vertical, joue: Joue) = {
+  def joue(x: Horizontal, y: Vertical, joue: Joueur) = {
     if (cases(x, y).equals(Rien())) {
       cases = cases.updated((x, y), joue)
     }

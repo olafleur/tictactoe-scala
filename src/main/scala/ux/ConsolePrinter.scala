@@ -13,6 +13,7 @@ class ConsolePrinter extends Printer {
     printLigne(grille.recupere(Gauche(), Bas()),
       grille.recupere(CentreHorizontal(), Bas()),
       grille.recupere(Droite(), Bas()))
+    println("\n")
   }
 
   override def afficherMessage(message: String) = {

@@ -3,10 +3,10 @@ import ux.Printer
 
 class Jeu(printer: Printer) {
   val maGrille = new Grille
-  var aQuiLeTour: Joue = X()
+  var aQuiLeTour: Joueur = X()
 
   def initGame() = {
-    printer.afficherMessage("Bienvenue dans le Tic-Tac-Toe, veuillez entrer votre premier mouvement\n")
+    printer.afficherMessage("Bienvenue dans le Tic-Tac-Toe.\n")
     printer.showGrid(maGrille)
 
     jouerTour()
@@ -28,7 +28,7 @@ class Jeu(printer: Printer) {
   }
 
   private def jouerTour(): Unit = {
-    val choix = printer.listenInput("Vous êtes les " + aQuiLeTour + ". Entrez le numéro de case que vous souhaitez")
+    val choix = printer.listenInput("Vous êtes les " + nomJoueur(aQuiLeTour) + ". Entrez le numéro de case que vous souhaitez")
 
     maGrille.recupere(choix._1, choix._2) match {
       case Rien() =>
@@ -45,13 +45,19 @@ class Jeu(printer: Printer) {
     if(maGrille.partieNulle()) {
       printer.afficherMessage("La partie est nulle.")
     } else {
-      printer.afficherMessage("Bravo! Le joueur " + contraire(aQuiLeTour) + " a gagné.")
+      printer.afficherMessage("Bravo! Le joueur " + nomJoueur(contraire(aQuiLeTour)) + " a gagné.")
     }
   }
 
-  private def contraire(joueur: Joue) =
+  private def contraire(joueur: Joueur) =
     joueur match {
       case X() => O()
       case O() => X()
+    }
+
+  private def nomJoueur(joueur: Joueur) =
+    joueur match {
+      case X() => "X"
+      case O() => "O"
     }
 }
