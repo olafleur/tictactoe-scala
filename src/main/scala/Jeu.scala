@@ -1,7 +1,7 @@
 import domain._
-import io.Printer
+import input_output.{Receiver, Printer}
 
-class Jeu(printer: Printer) {
+class Jeu(printer: Printer, receiver: Receiver) {
   val maGrille = new Grille
   var aQuiLeTour: Joueur = X()
 
@@ -28,7 +28,7 @@ class Jeu(printer: Printer) {
   }
 
   private def jouerTour(): Unit = {
-    val choix = printer.listenInput("Vous êtes les " + nomJoueur(aQuiLeTour) + ". Entrez le numéro de case que vous souhaitez")
+    val choix = listenInput("Vous êtes les " + nomJoueur(aQuiLeTour) + ". Entrez le numéro de case que vous souhaitez")
 
     maGrille.recupere(choix._1, choix._2) match {
       case Rien() =>
@@ -60,4 +60,33 @@ class Jeu(printer: Printer) {
       case X() => "X"
       case O() => "O"
     }
+
+  private def listenInput(message: String): (Horizontal, Vertical) = {
+    printer.afficherMessage(message)
+
+    val line = receiver.userInput
+
+    convertNumberToCase(line) match {
+      case Some((x: Horizontal, y: Vertical)) => (x, y)
+      case None =>
+        printer.afficherMessage("ERREUR DE LECTURE\n")
+        listenInput(message)
+    }
+  }
+
+  private def convertNumberToCase(number: String) = {
+    number match {
+      case "1" => Some(Gauche(), Haut())
+      case "2" => Some(CentreHorizontal(), Haut())
+      case "3" => Some(Droite(), Haut())
+      case "4" => Some(Gauche(), CentreVertical())
+      case "5" => Some(CentreHorizontal(), CentreVertical())
+      case "6" => Some(Droite(), CentreVertical())
+      case "7" => Some(Gauche(), Bas())
+      case "8" => Some(CentreHorizontal(), Bas())
+      case "9" => Some(Droite(), Bas())
+      case _ => None
+
+    }
+  }
 }

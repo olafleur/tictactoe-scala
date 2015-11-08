@@ -1,7 +1,7 @@
-import io.ConsolePrinter
+import input_output.{ConsoleReceiver, ConsolePrinter}
 
 object TicTacToe {
   def main(args: Array[String]) {
-    new Jeu(new ConsolePrinter).initGame()
+    new Jeu(new ConsolePrinter, new ConsoleReceiver).initGame()
   }
 }

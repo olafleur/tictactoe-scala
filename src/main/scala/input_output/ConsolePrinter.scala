@@ -1,4 +1,4 @@
-package io
+package input_output
 
 import domain._
 
@@ -19,8 +19,6 @@ class ConsolePrinter extends Printer {
   override def afficherMessage(message: String) = {
     println(message)
   }
-
-  override def userInput = io.Source.fromInputStream(System.in).bufferedReader().readLine()
 
   private def printLigne(etat1: Etat, etat2: Etat, etat3: Etat) = {
     println(affiche(etat1) + affiche(etat2) + affiche(etat3))
