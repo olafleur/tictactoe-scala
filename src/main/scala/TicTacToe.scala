@@ -1,4 +1,4 @@
-import ux.ConsolePrinter
+import io.ConsolePrinter
 
 object TicTacToe {
   def main(args: Array[String]) {

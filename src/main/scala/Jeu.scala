@@ -1,5 +1,5 @@
 import domain._
-import ux.Printer
+import io.Printer
 
 class Jeu(printer: Printer) {
   val maGrille = new Grille
