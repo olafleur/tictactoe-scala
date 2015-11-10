@@ -1,33 +1,16 @@
 import domain._
-import input_output.{Receiver, Printer}
+import input_output.Printer
 
-class Jeu(printer: Printer, receiver: Receiver) {
+class Jeu(printer: Printer) {
   val maGrille = new Grille
   var aQuiLeTour: Joueur = X()
 
   def initGame() = {
     printer.afficherMessage("Bienvenue dans le Tic-Tac-Toe.\n")
     printer.showGrid(maGrille)
-
-    jouerTour()
-
-    while (!maGrille.partieEstTerminee()) {
-      gameLoop()
-    }
-
-    printer.showGrid(maGrille)
-    declarerVainqueur()
   }
 
-  private def gameLoop() = {
-    printer.showGrid(maGrille)
-
-    if (!maGrille.partieEstTerminee()) {
-      jouerTour()
-    }
-  }
-
-  private def jouerTour(): Unit = {
+  def jouerTour(): Unit = {
     val choix = listenInput("Vous êtes les " + nomJoueur(aQuiLeTour) + ". Entrez le numéro de case que vous souhaitez")
 
     maGrille.recupere(choix._1, choix._2) match {
@@ -40,8 +23,12 @@ class Jeu(printer: Printer, receiver: Receiver) {
     }
   }
 
+  def partieTerminee() = maGrille.partieEstTerminee()
+
+  def showGrid() = printer.showGrid(maGrille)
+
   //TODO : Si la grille est pleine et que quelqu'un a gagné, il va dire nul, je crois
-  private def declarerVainqueur() = {
+  def declarerVainqueur() = {
     if(maGrille.partieNulle()) {
       printer.afficherMessage("La partie est nulle.")
     } else {
@@ -64,7 +51,7 @@ class Jeu(printer: Printer, receiver: Receiver) {
   private def listenInput(message: String): (Horizontal, Vertical) = {
     printer.afficherMessage(message)
 
-    val line = receiver.userInput
+    val line = io.Source.fromInputStream(System.in).bufferedReader().readLine()
 
     convertNumberToCase(line) match {
       case Some((x: Horizontal, y: Vertical)) => (x, y)
